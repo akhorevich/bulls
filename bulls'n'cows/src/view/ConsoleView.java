@@ -16,26 +16,40 @@ public class ConsoleView {
     private final static Scanner IN = new Scanner(System.in);
 
     public void gameStart(){
+        Player player = new Player();
+        setName();
+        if (name==null){
+            System.out.println("Имя не может быть пустым");
+            setName();
+        }else {
+            player.setName(name);
+        }
+
+
+        PlayerController plCont = new PlayerController(player,true);
+
+        if (plCont.isTurn()) {
+            try {
+                System.out.print("Введите число: ");
+                num = IN.nextLine();
+                player.setNumber(num);
+                String[] number = num.split("");
+                int[] intArray = new int[number.length];
+                for (int i = 0; i < number.length; i++) {
+                    String numberAsString = number[i];
+                    intArray[i] = Integer.parseInt(numberAsString);
+                }
+                plCont.setTurn(false);
+                System.out.println("Игрок "+player.getName()+" загадал число "+player.getNumber());
+            } catch (final InputMismatchException e) {
+                System.out.println("Это не число");
+
+            }
+        }
+    }
+    public void setName(){
         System.out.print("Введите свое имя: ");
         name = IN.nextLine();
-        Player player = new Player();
-        PlayerController pl = new PlayerController(player,true);
-        player.setName(name);
-        try{
-            System.out.print("Введите число: ");
-            num = IN.nextLine();
-            player.setNumber(num);
-            String[] number = num.split("");
-            int[] intArray = new int[number.length];
-            for (int i = 0; i < number.length; i++) {
-                String numberAsString = number[i];
-                intArray[i] = Integer.parseInt(numberAsString);
-            }
-            System.out.println(player.getNumber());
-        }catch (final InputMismatchException e){
-            System.out.println("Это не число");
-
-        }
     }
 
 
