@@ -3,6 +3,7 @@ package view;
 import controller.PlayerController;
 import model.Player;
 
+import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -13,10 +14,13 @@ public class ConsoleView {
 
     String num;
     String name;
+    ArrayList<Integer> intArray;
+    Player player;
+    PlayerController plCont;
     private final static Scanner IN = new Scanner(System.in);
 
     public void gameStart(){
-        Player player = new Player();
+        player = new Player();
         setName();
         if (name==null){
             System.out.println("Имя не может быть пустым");
@@ -26,18 +30,25 @@ public class ConsoleView {
         }
 
 
-        PlayerController plCont = new PlayerController(player,true);
+        plCont = new PlayerController(player,true);
 
+
+    }
+    public void setName(){
+        System.out.print("Введите свое имя: ");
+        name = IN.nextLine();
+    }
+    public void setNum(){
         if (plCont.isTurn()) {
             try {
                 System.out.print("Введите число: ");
                 num = IN.nextLine();
                 player.setNumber(num);
-                String[] number = num.split("");
-                int[] intArray = new int[number.length];
+                String[] number = num.split( "(?<=(.))(?!\\1)" );
+                intArray = new ArrayList<>(number.length);
                 for (int i = 0; i < number.length; i++) {
                     String numberAsString = number[i];
-                    intArray[i] = Integer.parseInt(numberAsString);
+                    intArray.add(Integer.parseInt(numberAsString));
                 }
                 plCont.setTurn(false);
                 System.out.println("Игрок "+player.getName()+" загадал число "+player.getNumber());
@@ -46,10 +57,7 @@ public class ConsoleView {
 
             }
         }
-    }
-    public void setName(){
-        System.out.print("Введите свое имя: ");
-        name = IN.nextLine();
+        
     }
 
 
