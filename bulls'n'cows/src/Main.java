@@ -1,3 +1,5 @@
+import controller.PlayerController;
+import model.Player;
 import view.ConsoleView;
 
 /**
@@ -5,9 +7,10 @@ import view.ConsoleView;
  */
 public class Main {
     public static void main(String[] args) {
-        ConsoleView cv = new ConsoleView();
-
-        cv.gameStart();
+        Player player = new Player();
+        ConsoleView view = new ConsoleView();
+        PlayerController controller = new PlayerController(player, view);
+        controller.game();
 
     }
 }

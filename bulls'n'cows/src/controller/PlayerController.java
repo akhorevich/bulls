@@ -13,10 +13,11 @@ import java.util.Scanner;
 public class PlayerController {
 
     int num;
-    String[] enemyNum;
+    int enemyNum;
     private final static Scanner IN = new Scanner(System.in);
     private Player player;
     private ConsoleView view;
+
 
     public PlayerController(Player player, ConsoleView view) {
         this.player = player;
@@ -24,53 +25,52 @@ public class PlayerController {
     }
 
     public void enemyNumber() {
-        enemyNum = new String[4];
         Random r = new Random();
-
-        for (int i = 0; i < enemyNum.length; i++) {
-            enemyNum[i] = String.valueOf(r.nextInt(11));
-        }
-        boolean checkEn = checkDupl(enemyNum);
-        if (checkEn==true){
+        enemyNum = r.nextInt(9000) + 1000;
+        if (checkDupl(enemyNum)) {
             enemyNumber();
         } else {
-            setNum();
+            setNumber();
         }
-
     }
 
 
-    public void setNum() {
+    public void setNumber() {
+        player = new Player();
+        try {
+            System.out.print("Введите число: ");
+            num = IN.nextInt();
+            player.setNumber(num);
 
-            try {
-                System.out.print("Введите число: ");
-                num = IN.nextLine();
-
-                String[] number = num.split("");
-                boolean check = checkDupl(num);
-                if (check == true) {
-                    System.out.println("Нельзя вводить повторяющиеся числа!");
-                    setNum();
-                } else {
-                    System.out.println("Все окей");
-                }
-
-
-            } catch (final InputMismatchException e) {
-                System.out.println("Это не число");
-
+            if (checkDupl(player.getNumber())) {
+                System.out.println("Нельзя вводить повторяющиеся числа!");
+                setNumber();
             }
 
+        } catch (final InputMismatchException e) {
+            System.out.println("Это не число");
 
+        }
     }
+
 
     public static boolean checkDupl(int num) {
         boolean[] digs = new boolean[10];
-        while(num > 0){
-            if(digs[num%10]) return true;
-            digs[num%10] = true;
-            num/= 10;
+        while (num > 0) {
+            if (digs[num % 10]) return true;
+            digs[num % 10] = true;
+            num /= 10;
         }
         return false;
+    }
+
+    public int getPlayerNumber(){
+        return player.getNumber();
+    }
+
+    public void game(){
+        enemyNumber();
+        view.updateView(num,enemyNum);
+
     }
 }

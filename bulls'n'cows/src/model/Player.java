@@ -5,13 +5,13 @@ package model;
  */
 public class Player {
 
-    private String number;
+    private int number;
 
-    public String getNumber() {
+    public int getNumber() {
         return number;
     }
 
-    public void setNumber(String number) {
+    public void setNumber(int number) {
         this.number = number;
     }
 }
