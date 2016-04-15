@@ -71,6 +71,7 @@ public class PlayerController {
     public void game(){
         enemyNumber();
         view.updateView(num,enemyNum);
+        setNumber();
 
     }
 }
